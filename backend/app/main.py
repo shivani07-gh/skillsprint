@@ -17,14 +17,14 @@ app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
     description="SkillsPrint Backend API - Authentication & Authorization",
-    docs_url="/docs",
-    redoc_url="/redoc"
+    docs_url="/docs" if settings.DEBUG else None,
+    redoc_url="/redoc" if settings.DEBUG else None,
 )
 
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=settings.ALLOWED_ORIGINS if settings.ENVIRONMENT == "production" else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -34,57 +34,47 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(user.router)
 
-# ========== Frontend Setup ==========
-print("\n" + "="*50)
-print("🔍 DEBUGGING FRONTEND PATH")
-print("="*50)
+# ========== FRONTEND SERVING ==========
+# The frontend is at /app/frontend in Docker
+FRONTEND_DIR = "/app/frontend"
 
-current_file = os.path.abspath(__file__)
-main_dir = os.path.dirname(current_file)
-backend_dir = os.path.dirname(main_dir)
-project_dir = os.path.dirname(backend_dir)
-frontend_dir = os.path.join(project_dir, "frontend")
+# Also check other possible locations
+if not os.path.exists(FRONTEND_DIR):
+    # For local development
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
 
-print(f"📁 Frontend directory: {frontend_dir}")
-print(f"📁 Frontend exists: {os.path.exists(frontend_dir)}")
+print(f"📁 Looking for frontend at: {FRONTEND_DIR}")
 
-if os.path.exists(frontend_dir):
+if os.path.exists(FRONTEND_DIR):
     # Mount static files
-    app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
+    app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
     
-    # Serve HTML pages with no-cache headers
+    # Serve HTML pages
     @app.get("/")
     async def serve_login():
-        return FileResponse(
-            os.path.join(frontend_dir, "index.html"),
-            headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
-        )
+        return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
     
     @app.get("/signup")
     async def serve_signup():
-        return FileResponse(
-            os.path.join(frontend_dir, "signup.html"),
-            headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
-        )
+        return FileResponse(os.path.join(FRONTEND_DIR, "signup.html"))
     
     @app.get("/dashboard")
     async def serve_dashboard():
-        return FileResponse(
-            os.path.join(frontend_dir, "dashboard.html"),
-            headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
-        )
+        return FileResponse(os.path.join(FRONTEND_DIR, "dashboard.html"))
     
     print("✅ Frontend served successfully!")
 else:
+    # Fallback API response
     @app.get("/")
     def root():
         return {
-            "message": "Welcome to SkillsPrint API",
+            "message": f"Welcome to {settings.APP_NAME} API",
             "version": settings.APP_VERSION,
-            "docs": "/docs"
+            "status": "healthy"
         }
     print("❌ Frontend not found!")
 
 @app.get("/health", tags=["Health"])
 def health():
-    return {"status": "healthy"}
+    return {"status": "healthy", "environment": settings.ENVIRONMENT}

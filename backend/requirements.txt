@@ -27,3 +27,5 @@ python-multipart==0.0.9
 
 # Utilities
 python-dateutil==2.9.0
+
+uvicorn==0.30.1
