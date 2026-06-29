@@ -22,9 +22,14 @@ app = FastAPI(
 )
 
 # CORS middleware
+# app/main.py - Alternative CORS configuration
+
+# Get allowed origins from settings
+allowed_origins = settings.ALLOWED_ORIGINS.split(",") if settings.ALLOWED_ORIGINS else ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.ALLOWED_ORIGINS if settings.ENVIRONMENT == "production" else ["*"],
+    allow_origins=allowed_origins if settings.ENVIRONMENT == "production" else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
