@@ -1,4 +1,3 @@
-# backend/app/config.py
 from pydantic_settings import BaseSettings
 from typing import List, Optional
 import os
@@ -31,11 +30,11 @@ class Settings(BaseSettings):
     # Application Settings
     APP_NAME: str = "SkillsPrint API"
     APP_VERSION: str = "1.0.0"
-    DEBUG: bool = os.getenv("DEBUG", "False").lower() == "true"
-    ENVIRONMENT: str = os.getenv("ENVIRONMENT", "production")
+    DEBUG: bool = os.getenv("DEBUG", "True").lower() == "true"  # Default to True for development
+    ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
     
-    # CORS Settings - Store as string, not list
-    ALLOWED_ORIGINS: str = os.getenv("ALLOWED_ORIGINS", "http://localhost:8000")
+    # CORS Settings
+    ALLOWED_ORIGINS: str = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
     
     class Config:
         env_file = ".env"

@@ -1,13 +1,10 @@
-# app/main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 import os
 
 from app.config import settings
 from app.database import init_database
-from app.routes import auth, user
+from app.routes import auth, user, questions
 
 # Initialize database
 init_database()
@@ -16,69 +13,41 @@ init_database()
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
-    description="SkillsPrint Backend API - Authentication & Authorization",
-    docs_url="/docs" if settings.DEBUG else None,
-    redoc_url="/redoc" if settings.DEBUG else None,
+    description="SkillsPrint Backend API - Placement Preparation Platform",
+    docs_url="/docs",
+    redoc_url="/redoc"
 )
 
-# CORS middleware
-# app/main.py - Alternative CORS configuration
-
-# Get allowed origins from settings
-allowed_origins = settings.ALLOWED_ORIGINS.split(",") if settings.ALLOWED_ORIGINS else ["*"]
-
+# ============ CORS CONFIGURATION ============
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins if settings.ENVIRONMENT == "production" else ["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "*"  # For development only
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
 )
 
 # Include routers
 app.include_router(auth.router)
 app.include_router(user.router)
+app.include_router(questions.router)
 
-# ========== FRONTEND SERVING ==========
-# The frontend is at /app/frontend in Docker
-FRONTEND_DIR = "/app/frontend"
-
-# Also check other possible locations
-if not os.path.exists(FRONTEND_DIR):
-    # For local development
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
-
-print(f"📁 Looking for frontend at: {FRONTEND_DIR}")
-
-if os.path.exists(FRONTEND_DIR):
-    # Mount static files
-    app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
-    
-    # Serve HTML pages
-    @app.get("/")
-    async def serve_login():
-        return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
-    
-    @app.get("/signup")
-    async def serve_signup():
-        return FileResponse(os.path.join(FRONTEND_DIR, "signup.html"))
-    
-    @app.get("/dashboard")
-    async def serve_dashboard():
-        return FileResponse(os.path.join(FRONTEND_DIR, "dashboard.html"))
-    
-    print("✅ Frontend served successfully!")
-else:
-    # Fallback API response
-    @app.get("/")
-    def root():
-        return {
-            "message": f"Welcome to {settings.APP_NAME} API",
-            "version": settings.APP_VERSION,
-            "status": "healthy"
-        }
-    print("❌ Frontend not found!")
+@app.get("/", tags=["Root"])
+def root():
+    return {
+        "message": "Welcome to SkillsPrint API",
+        "version": settings.APP_VERSION,
+        "docs": "/docs",
+        "status": "healthy"
+    }
 
 @app.get("/health", tags=["Health"])
 def health():
