@@ -41,6 +41,7 @@ export const useDashboardData = () => {
     };
     loadData();
   }, []);
+
   return { data, loading };
 };
 
@@ -52,11 +53,7 @@ export const useSubjectData = (subjectId) => {
     const loadData = async () => {
       try {
         const structuredData = await dataService.loadAllData();
-        // Find subject by ID - convert to number for comparison
         const subject = structuredData.subjects.find(s => Number(s.id) === Number(subjectId));
-        
-        console.log('🔍 useSubjectData - subjectId:', subjectId);
-        console.log('📊 Found subject:', subject);
         
         if (subject) {
           setData({
@@ -81,7 +78,6 @@ export const useSubjectData = (subjectId) => {
             }))
           });
         } else {
-          console.warn('⚠️ Subject not found for ID:', subjectId);
           setData(null);
         }
         setLoading(false);
@@ -97,8 +93,6 @@ export const useSubjectData = (subjectId) => {
   return { data, loading };
 };
 
-// Add this to the useTopicData function to handle both ID and name
-
 export const useTopicData = (topicId) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -107,22 +101,16 @@ export const useTopicData = (topicId) => {
     const loadData = async () => {
       try {
         const structuredData = await dataService.loadAllData();
-        
-        // Check if topicId is a number or string
         const isNumeric = !isNaN(topicId);
         
         for (const subject of structuredData.subjects) {
           for (const topic of subject.topics || []) {
             let match = false;
-            
             if (isNumeric) {
-              // Match by ID
               match = String(topic.id) === String(topicId);
             } else {
-              // Match by name (case insensitive)
               match = topic.name?.toLowerCase() === String(topicId).toLowerCase();
             }
-            
             if (match) {
               setData({
                 ...topic,
@@ -146,6 +134,7 @@ export const useTopicData = (topicId) => {
 
   return { data, loading };
 };
+
 export const usePracticeQuestions = (topicId, difficulty, subjectName, subtopicName) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -160,8 +149,6 @@ export const usePracticeQuestions = (topicId, difficulty, subjectName, subtopicN
       }
 
       try {
-        console.log('🔍 Fetching practice questions:', { topicId, subjectName, subtopicName });
-        
         const structuredData = await dataService.loadAllData();
         let foundSubject = null;
         let foundTopic = null;
@@ -178,7 +165,6 @@ export const usePracticeQuestions = (topicId, difficulty, subjectName, subtopicN
         }
 
         if (!foundTopic) {
-          console.warn('⚠️ Topic not found:', topicId);
           setData({ questions: [], totalQuestions: 0 });
           setLoading(false);
           return;
@@ -187,8 +173,6 @@ export const usePracticeQuestions = (topicId, difficulty, subjectName, subtopicN
         const finalSubject = subjectName || foundSubject.name;
         const finalTopic = foundTopic.name;
         const finalSubtopic = subtopicName || null;
-
-        console.log('📤 Fetching with:', { finalSubject, finalTopic, finalSubtopic });
 
         const response = await questionApi.getPracticeQuestions({
           subject: finalSubject,
@@ -202,8 +186,6 @@ export const usePracticeQuestions = (topicId, difficulty, subjectName, subtopicN
         if (response.data && Array.isArray(response.data.questions)) {
           questions = response.data.questions;
         }
-
-        console.log(`✅ Found ${questions.length} questions`);
 
         const formattedQuestions = questions.map((q, index) => ({
           id: q.id || index + 1,
@@ -226,7 +208,7 @@ export const usePracticeQuestions = (topicId, difficulty, subjectName, subtopicN
         setLoading(false);
 
       } catch (error) {
-        console.error('❌ Error loading practice questions:', error);
+        console.error('Error loading practice questions:', error);
         setData({ questions: [], totalQuestions: 0 });
         setLoading(false);
       }

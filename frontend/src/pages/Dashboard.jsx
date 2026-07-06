@@ -13,6 +13,9 @@ const Dashboard = () => {
   const { user } = useAuth();
   const { data, loading } = useDashboardData();
 
+  console.log('🔍 Dashboard - loading:', loading);
+  console.log('🔍 Dashboard - data:', data);
+
   // Loading state
   if (loading) {
     return (
@@ -39,7 +42,7 @@ const Dashboard = () => {
   const stats = data.stats || {
     overallAccuracy: 0,
     topicsCompleted: 0,
-    practiceTime: "0hrs",
+    practiceTime: "0h",
     testsTaken: 0,
     dailyStreak: 0
   };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams, useLocation } from 'react-router-dom';
 import dataService from '../services/dataService';
 import { questionApi } from '../services/api';
 import QuestionCard from '../components/practice/QuestionCard';
@@ -12,11 +12,16 @@ const Practice = () => {
   const { topicId, subtopicId } = useParams();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const location = useLocation();
   
   // Get ALL parameters from URL
   const subjectFromQuery = searchParams.get('subject');
   const subtopicFromQuery = searchParams.get('subtopic');
   const difficultyFromQuery = searchParams.get('difficulty') || 'mixed';
+  
+  // Handle retry mode from result page
+  const isRetry = location.state?.isRetry || false;
+  const retryQuestions = location.state?.questions || [];
   
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,6 +39,15 @@ const Practice = () => {
   useEffect(() => {
     const loadQuestions = async () => {
       try {
+        // If retry mode is active, use retry questions
+        if (isRetry && retryQuestions.length > 0) {
+          console.log('🔄 Retry mode: Using', retryQuestions.length, 'questions');
+          setQuestions(retryQuestions);
+          setTopicName('Incorrect Questions');
+          setLoading(false);
+          return;
+        }
+        
         console.log('🔍 Practice Page - Params:', {
           topicId,
           subtopicId,
@@ -183,7 +197,7 @@ const Practice = () => {
     } else {
       setLoading(false);
     }
-  }, [topicId, subtopicId, subjectFromQuery, subtopicFromQuery]);
+  }, [topicId, subtopicId, subjectFromQuery, subtopicFromQuery, isRetry, retryQuestions]);
 
   // Timer effect
   useEffect(() => {
@@ -341,7 +355,7 @@ const Practice = () => {
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
           <h2 className="text-xl font-bold text-gray-900">
-            {topicName || 'Practice'}
+            {isRetry ? 'Retry Incorrect Questions' : (topicName || 'Practice')}
           </h2>
           <div className="flex items-center gap-3 mt-1 flex-wrap">
             <Badge variant="primary">{totalQuestions} Questions</Badge>

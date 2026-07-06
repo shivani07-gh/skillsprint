@@ -1,35 +1,25 @@
+# render.yaml
 services:
   - type: web
     name: skillsprint-api
     runtime: docker
+    repo: https://github.com/shivani07-gh/skillsprint
     plan: free
-
     dockerfilePath: ./Dockerfile
-
     envVars:
       - key: SECRET_KEY
         generateValue: true
-
       - key: ALGORITHM
         value: HS256
-
       - key: ACCESS_TOKEN_EXPIRE_MINUTES
-        value: "60"
-
+        value: 60
       - key: DEBUG
-        value: "False"
-
+        value: False
       - key: ENVIRONMENT
         value: production
-
       - key: DB_TYPE
         value: sqlite
-
       - key: DB_NAME
         value: skillsprint
-
       - key: DB_ECHO
-        value: "False"
-
-      - key: ALLOWED_ORIGINS
-        value: https://skillsprint-api.onrender.com
+        value: False
