@@ -38,6 +38,7 @@ if (loginForm) {
                 showMessage(messageDiv, `❌ ${data.detail || 'Invalid credentials'}`, 'error');
             }
         } catch (error) {
+            console.error(error);
             showMessage(messageDiv, '❌ Network error. Is the backend running?', 'error');
         }
     });
@@ -80,6 +81,7 @@ if (signupForm) {
                 showMessage(messageDiv, `❌ ${data.detail || 'Signup failed'}`, 'error');
             }
         } catch (error) {
+            console.error(error);
             showMessage(messageDiv, '❌ Network error. Is the backend running?', 'error');
         }
     });
@@ -149,6 +151,7 @@ if (window.location.pathname === '/dashboard') {
                     }
                 });
             } catch (error) {
+                console.error(error);
                 // Ignore errors
             }
 
