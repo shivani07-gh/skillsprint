@@ -1,5 +1,13 @@
 # 🚀 SkillsPrint
 
+# Live Demo (Version 1)
+
+A basic working version (**Version 1**) of **SkillsPrint** has been deployed for testing and demonstration purposes.
+
+🔗 **Live Application:** https://skillsprint-vs.onrender.com
+
+> **Note:** This is the initial deployment intended for testing core features. Additional functionality, UI improvements, optimizations, and new features will be added in future versions.
+
 > **Practice Smarter. Learn Faster. Crack Placements.**
 
 SkillsPrint is a modern placement preparation platform that helps students master **Aptitude, Logical Reasoning, Verbal Ability, and CS Fundamentals** through structured learning, smart practice sessions, and in-depth performance analytics.
