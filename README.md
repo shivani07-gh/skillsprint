@@ -6,215 +6,424 @@ A basic working version (**Version 1**) of **SkillsPrint** has been deployed for
 
 🔗 **Live Application:** https://skillsprint-vs.onrender.com
 
-> **Note:** This is the initial deployment intended for testing core features. Additional functionality, UI improvements, optimizations, and new features will be added in future versions.
+> **Learn Concepts. Practice Infinitely. Crack Placements.**
 
-> **Practice Smarter. Learn Faster. Crack Placements.**
+SkillsPrint is an AI-powered placement preparation platform designed to help students prepare for aptitude exams through **structured learning**, **concept-based practice**, and **dynamic AI-generated questions**.
 
-SkillsPrint is a modern placement preparation platform that helps students master **Aptitude, Logical Reasoning, Verbal Ability, and CS Fundamentals** through structured learning, smart practice sessions, and in-depth performance analytics.
-
-Unlike traditional quiz platforms, SkillsPrint focuses on **conceptual learning** by combining theory, formulas, hints, explanations, adaptive testing, and progress tracking into one seamless experience.
+Unlike traditional aptitude websites that rely on static question banks, SkillsPrint ensures students **understand concepts rather than memorize answers** by generating fresh questions while maintaining the same topic, pattern, and difficulty level.
 
 ---
 
-# ✨ Key Features
+## 📖 Table of Contents
 
-## 📚 Learn Before You Practice
-Each topic is organized into:
-- 📖 Theory
-- 🧮 Important Formulas
-- ⚡ Shortcuts & Tricks
-- 🎯 Practice Questions
-
-This ensures students understand concepts instead of memorizing answers.
-
----
-
-## 🧠 Smart Practice Mode
-
-- Unlimited practice questions
-- Topic-wise learning
-- Optional hints before submission
-- Formula assistance
-- Instant answer validation
-- Detailed explanation shown **only when the answer is incorrect**
-
-This encourages genuine problem-solving instead of simply revealing solutions.
+- Overview
+- Problem Statement
+- Solution
+- Learning Flow
+- Features
+- AI-Powered Question Generation
+- Project Structure
+- Tech Stack
+- Future Scope
+- Installation
+- Contributors
+- License
 
 ---
 
-## 🌟 Unique Feature: Never Repeat Questions
+# 📌 Overview
 
-SkillsPrint intelligently tracks every question attempted by a user.
+SkillsPrint provides a structured roadmap for placement preparation.
 
-### Instead of repeatedly showing the same questions:
-- ✅ Previously solved questions are skipped.
-- ✅ New unseen questions are prioritized.
-- ✅ Repetition occurs only after the entire question pool has been exhausted.
+Students learn a concept through a curated YouTube tutorial, practice concept-specific questions, and evaluate themselves through topic-wise tests.
 
-This provides a fresh learning experience every time and prevents memorization-based preparation.
+The platform uses Large Language Models (LLMs) to generate new questions based on predefined concepts, enabling unlimited practice without repeating the same questions.
 
 ---
 
-## 📝 Topic-wise Mock Tests
+# ❗ Problem Statement
 
-- Timed assessments
-- Multiple-choice questions
-- Previous / Next navigation
-- Auto evaluation
-- Instant result generation
+Most aptitude platforms provide a fixed set of questions.
 
----
+As students repeatedly practice those questions, they begin to memorize answers instead of understanding concepts.
 
-## 📊 Detailed Performance Analytics
+This leads to:
 
-After every test, users receive:
-
-- 🎯 Overall Score
-- 📈 Accuracy Percentage
-- ✅ Correct Answers
-- ❌ Incorrect Answers
-- ⏱️ Time Taken
-- 💪 Strong Topics
-- 📉 Weak Topics
-- 🔄 Recommended Revision Areas
+- Repetitive practice
+- Limited question variety
+- Memorization instead of conceptual learning
+- Poor preparation for unseen placement questions
 
 ---
 
-## 📌 Progress Tracking
+# 💡 Solution
 
-Students can monitor:
+SkillsPrint combines structured learning with AI-powered question generation.
 
-- Completed topics
-- Learning progress
-- Practice history
-- Test history
-- Overall improvement
+Students first understand a topic through a recommended YouTube tutorial and then practice AI-generated questions based on the selected concept and difficulty level.
+
+Every practice session feels fresh while staying aligned with the curriculum.
 
 ---
 
-# 🏗️ Tech Stack
+# 🎯 Learning Flow
+
+```text
+Login / Signup
+        │
+        ▼
+Dashboard
+        │
+        ▼
+Choose Subject
+(Arithmetic / Reasoning / Verbal)
+        │
+        ▼
+Choose Topic
+(Profit & Loss, Percentage, Time & Work...)
+        │
+        ▼
+🎥 Watch Recommended YouTube Tutorial
+        │
+        ▼
+📝 Practice
+        │
+        ▼
+Choose Pattern / Subtopic
+        │
+        ▼
+🤖 AI Generates New Questions
+        │
+        ▼
+📊 Topic Test
+        │
+        ▼
+📈 Progress & Analytics
+```
+
+---
+
+# 📚 Subject Structure
+
+```text
+Arithmetic
+│
+├── Percentage
+├── Profit & Loss
+├── Time & Work
+├── Time, Speed & Distance
+├── Ratio & Proportion
+├── Simple Interest
+└── ...
+
+Reasoning
+│
+├── Blood Relations
+├── Coding-Decoding
+├── Seating Arrangement
+├── Direction Sense
+└── ...
+
+Verbal
+│
+├── Reading Comprehension
+├── Synonyms
+├── Antonyms
+├── Sentence Correction
+└── ...
+```
+
+---
+
+# 🧠 Topic Structure
+
+Example:
+
+```text
+Arithmetic
+        │
+        ▼
+Profit & Loss
+        │
+        ├── 🎥 YouTube Tutorial
+        │
+        ├── Practice
+        │      ├── Basic Profit & Loss
+        │      ├── Discount
+        │      ├── Marked Price
+        │      ├── Successive Discount
+        │      └── Net Percentage
+        │
+        └── 📊 Topic Test
+```
+
+---
+
+# 📝 Practice System
+
+Each pattern is divided into three difficulty levels.
+
+Example:
+
+```text
+Net Percentage
+
+Easy
+15 Questions
+
+Medium
+10 Questions
+
+Hard
+5 Questions
+```
+
+Instead of repeatedly displaying the same static questions, SkillsPrint uses AI to generate **fresh questions** based on:
+
+- Subject
+- Topic
+- Pattern
+- Difficulty
+- Seed Questions
+
+Students therefore practice the concept rather than memorizing answers.
+
+---
+
+# 🤖 AI-Powered Question Generation
+
+SkillsPrint does not allow AI to generate random aptitude questions.
+
+Instead, it follows a guided generation approach.
+
+The system provides the LLM with:
+
+- Subject
+- Topic
+- Pattern
+- Difficulty
+- Curated reference questions
+
+The AI then generates new questions that:
+
+- Test the same concept
+- Preserve the same difficulty level
+- Use different values
+- Introduce new real-world scenarios
+- Generate unique options
+- Provide the correct answer and explanation
+
+This enables unlimited concept-based practice while maintaining curriculum quality.
+
+---
+
+# 📊 Topic Tests
+
+Topic tests are generated dynamically.
+
+Instead of fixed papers, SkillsPrint creates unique assessments using predefined topic blueprints.
+
+Example:
+
+```text
+Profit & Loss Test
+
+2 Basic Questions
+
+2 Discount Questions
+
+2 Marked Price Questions
+
+2 Successive Discount Questions
+
+2 Net Percentage Questions
+```
+
+Every learner receives a different test while maintaining balanced topic coverage.
+
+---
+
+# ✨ Features
+
+- 🔐 Secure Authentication
+- 📚 Subject-wise Learning
+- 🎥 Curated YouTube Tutorials
+- 📝 Pattern-wise Practice
+- 🤖 AI-Generated Questions
+- 📊 Dynamic Topic Tests
+- 📈 Performance Analytics
+- 🎯 Concept-Based Learning
+- ♾️ Unlimited Practice
+- 📱 Responsive UI
+
+---
+
+# 🛠️ Tech Stack
 
 ## Frontend
-- Next.js
+
 - React
+- Vite
 - Tailwind CSS
+- React Router
+- Axios
 
 ## Backend
-- FastAPI (Python)
+
+- FastAPI
+- SQLAlchemy
+- JWT Authentication
+- Pydantic
 
 ## Database
-- MySQL
 
-## Authentication
-- JWT Authentication
+- SQLite
+- MySQL (Planned)
+
+## AI
+
+- Large Language Models (LLMs)
+- Prompt Engineering
+- Dynamic Question Generation
+- JSON Structured Outputs
 
 ---
 
 # 📂 Project Structure
 
 ```text
-SkillsPrint/
+skillsprint/
 │
 ├── frontend/
+│   ├── src/
 │   ├── components/
 │   ├── pages/
-│   ├── styles/
-│   └── public/
+│   ├── services/
+│   └── assets/
 │
 ├── backend/
-│   ├── routes/
-│   ├── models/
-│   ├── services/
-│   ├── database/
-│   └── main.py
+│   ├── app/
+│   │   ├── config/
+│   │   ├── database/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── schemas/
+│   │   ├── services/
+│   │   ├── middleware/
+│   │   └── utils/
+│   │
+│   ├── datasets/
+│   └── requirements.txt
 │
-├── datasets/
-├── docs/
 └── README.md
 ```
 
 ---
 
-# 🔄 User Workflow
+# 🌟 Why SkillsPrint?
 
-```text
-Login / Signup
-       │
-       ▼
-   Dashboard
-       │
-       ▼
-Choose Category
-(Aptitude / Reasoning / Verbal / CS)
-       │
-       ▼
- Select Topic
-       │
-       ▼
-Study Theory & Formulas
-       │
-       ▼
-Practice Questions
-       │
-       ├── View Hint (Optional)
-       ├── View Formula (Optional)
-       │
-       ▼
-Submit Answer
-       │
-       ├── ✅ Correct
-       │      └── Next Question
-       │
-       └── ❌ Incorrect
-              ├── Show Correct Answer
-              ├── Show Explanation
-              └── Continue
-       │
-       ▼
- Take Mock Test
-       │
-       ▼
- View Results
-       │
-       ▼
- Performance Analysis
+Traditional Platforms
+
+- Fixed question banks
+- Memorization-based practice
+- Repeated questions
+- Limited learning experience
+
+SkillsPrint
+
+- Concept-based learning
+- AI-generated fresh questions
+- Unlimited practice
+- Dynamic topic tests
+- Personalized learning experience
+
+---
+
+# 🚀 Future Scope
+
+- Adaptive Question Generation
+- AI Performance Analysis
+- Personalized Learning Paths
+- Company-Specific Placement Preparation
+- Coding Practice
+- CS Fundamentals
+- Interview Preparation
+- Leaderboards & Gamification
+- Mobile Application
+
+---
+
+# ⚙️ Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/your-username/skillsprint.git
+```
+
+Move into the project directory
+
+```bash
+cd skillsprint
+```
+
+### Backend
+
+```bash
+cd backend
+
+python -m venv .venv
+
+source .venv/bin/activate
+# Windows
+.venv\Scripts\activate
+
+pip install -r requirements.txt
+
+uvicorn app.main:app --reload
+```
+
+### Frontend
+
+```bash
+cd frontend
+
+npm install
+
+npm run dev
 ```
 
 ---
 
-# 🚀 Why SkillsPrint?
+# 🤝 Contributing
 
-✔️ Learn concepts before solving questions
+Contributions are welcome!
 
-✔️ Smart hints without immediately revealing answers
+If you'd like to improve SkillsPrint, feel free to:
 
-✔️ Explanations only when mistakes are made
-
-✔️ Fresh question experience with **Never Repeat Mode**
-
-✔️ Structured placement preparation in one platform
-
-✔️ Progress-driven learning instead of rote memorization
-
----
-
-# 🎯 Future Enhancements
-
-- AI-generated question variations
-- Adaptive difficulty based on user performance
-- Daily challenges & streaks
-- Company-specific placement tests
-- Personalized revision planner
-- Leaderboards
-- AI doubt-solving assistant
-- Interview preparation module
+- Fork the repository
+- Create a feature branch
+- Commit your changes
+- Open a Pull Request
 
 ---
 
 # 📄 License
 
-This project is licensed under the MIT License.
+This project is developed for educational and research purposes.
 
 ---
 
-## ⭐ If you found this project useful, consider giving it a star!
+# 👩‍💻 Authors
+
+**Shivani Barot**, 
+
+**Vaidehi Koranne**
+
+B.Tech Computer Science Engineering
+
+AI • Full Stack Development • EdTech • Placement Preparation
+
+---
+
+## ⭐ If you like this project, don't forget to star the repository!
